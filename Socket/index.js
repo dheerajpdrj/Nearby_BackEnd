@@ -1,6 +1,6 @@
 const io = require('socket.io')(8800, {
     cors: {
-        origin: "http://localhost:3000"
+        origin: "https://main.d3jea3bkis5evb.amplifyapp.com"
     }
 })
 

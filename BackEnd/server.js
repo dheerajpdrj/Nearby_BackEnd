@@ -16,13 +16,13 @@ connectDB();
 const app = express();
 
 
-// const options = {
-//     origin:"http://localhost:3000",
-//     optionSuccessStatus: 200
-// }
+const options = {
+    origin:"https://main.d3jea3bkis5evb.amplifyapp.com",
+    optionSuccessStatus: 200
+}
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(options));
 app.use(fileUpload({
     useTempFiles:true
 }))
