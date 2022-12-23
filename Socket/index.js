@@ -1,18 +1,21 @@
 const io = require('socket.io')(8800, {
     cors: {
         origin: "https://main.d3jea3bkis5evb.amplifyapp.com"
-    }
+        // origin: "http://localhost:3000"
+    },
+    autoConnect: false,
+    transports: ['websocket'],
 })
 
 let activeUsers = [];
 
 io.on('connection', (socket) => {
-    console.log("a user connected",socket.id);
-    
+    console.log("a user connected", socket.id);
+
     // add new user;
     socket.on("new-user-add", (newUserId) => {
-        
-        console.log("a user added",newUserId);
+
+        console.log("a user added", newUserId);
         //if user is not added previously
         if (!activeUsers.some((user) => user.userId === newUserId)) {
             activeUsers.push({
@@ -25,14 +28,14 @@ io.on('connection', (socket) => {
     })
 
     //send and get message
-    socket.on("send-message", (data)=>{
-        const {receiverId} = data;
-        const user = activeUsers.find((user)=> user.userId === receiverId)
+    socket.on("send-message", (data) => {
+        const { receiverId } = data;
+        const user = activeUsers.find((user) => user.userId === receiverId)
         //console.log("Sending from socket to :", receiverId);
-        
-        console.log("userid",activeUsers);
-        console.log("user",user);
-        if(user){
+
+        console.log("userid", activeUsers);
+        console.log("user", user);
+        if (user) {
             console.log("Data", data.text);
             io.to(user.socketId).emit("receive-message", data);
         }
@@ -40,9 +43,9 @@ io.on('connection', (socket) => {
 
 
     // when user diconnected
-    socket.on("disconnect", ()=>{
-        activeUsers = activeUsers.filter((user)=> user.socketId !== socket.id );
+    socket.on("disconnect", () => {
+        activeUsers = activeUsers.filter((user) => user.socketId !== socket.id);
         console.log("User Disconnected", activeUsers)
-        io.emit('get-users',activeUsers);
+        io.emit('get-users', activeUsers);
     })
 })

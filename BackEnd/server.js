@@ -18,6 +18,7 @@ const app = express();
 
 const options = {
     origin:"https://main.d3jea3bkis5evb.amplifyapp.com",
+    // origin:"http://localhost:3000",
     optionSuccessStatus: 200
 }
 
